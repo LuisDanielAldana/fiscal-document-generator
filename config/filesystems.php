@@ -38,6 +38,44 @@ return [
             'report' => false,
         ],
 
+        /*
+         * Fiscal documents are private by design. Locally, files are stored
+         * outside the web root. In production, set FISCAL_DOCUMENTS_DRIVER=s3
+         * and the FISCAL_DOCUMENTS_AWS_* variables to use a private bucket.
+         */
+        'fiscal-documents' => [
+            'driver' => env('FISCAL_DOCUMENTS_DRIVER', 'local'),
+            'root' => env('FISCAL_DOCUMENTS_ROOT', storage_path('app/private/fiscal-documents')),
+            'key' => env('FISCAL_DOCUMENTS_AWS_ACCESS_KEY_ID'),
+            'secret' => env('FISCAL_DOCUMENTS_AWS_SECRET_ACCESS_KEY'),
+            'region' => env('FISCAL_DOCUMENTS_AWS_DEFAULT_REGION'),
+            'bucket' => env('FISCAL_DOCUMENTS_AWS_BUCKET'),
+            'endpoint' => env('FISCAL_DOCUMENTS_AWS_ENDPOINT'),
+            'use_path_style_endpoint' => env('FISCAL_DOCUMENTS_AWS_USE_PATH_STYLE_ENDPOINT', false),
+            'visibility' => 'private',
+            'throw' => true,
+            'report' => true,
+        ],
+
+        /*
+         * SAT e-signature material (.cer / .key). Kept on its own disk so the
+         * bucket, IAM policy and lifecycle rules for signing credentials can be
+         * tightened independently of generated documents. Never public.
+         */
+        'fiscal-credentials' => [
+            'driver' => env('FISCAL_CREDENTIALS_DRIVER', 'local'),
+            'root' => env('FISCAL_CREDENTIALS_ROOT', storage_path('app/private/fiscal-credentials')),
+            'key' => env('FISCAL_CREDENTIALS_AWS_ACCESS_KEY_ID'),
+            'secret' => env('FISCAL_CREDENTIALS_AWS_SECRET_ACCESS_KEY'),
+            'region' => env('FISCAL_CREDENTIALS_AWS_DEFAULT_REGION'),
+            'bucket' => env('FISCAL_CREDENTIALS_AWS_BUCKET'),
+            'endpoint' => env('FISCAL_CREDENTIALS_AWS_ENDPOINT'),
+            'use_path_style_endpoint' => env('FISCAL_CREDENTIALS_AWS_USE_PATH_STYLE_ENDPOINT', false),
+            'visibility' => 'private',
+            'throw' => true,
+            'report' => true,
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

@@ -59,13 +59,15 @@ return [
     | Application Timezone
     |--------------------------------------------------------------------------
     |
-    | Here you may specify the default timezone for your application, which
-    | will be used by the PHP date and date-time functions. The timezone
-    | is set to "UTC" by default as it is suitable for most use cases.
+    | Every date this application reasons about is a SAT date: which fiscal day
+    | a document belongs to, and when 02:00 falls. Running in Mexico City time
+    | keeps `generated_for_date` and the schedule in agreement, where UTC would
+    | put the nightly run at 20:00 the previous day and label documents with the
+    | wrong fiscal day.
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => env('APP_TIMEZONE', 'America/Mexico_City'),
 
     /*
     |--------------------------------------------------------------------------

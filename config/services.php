@@ -34,5 +34,26 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
+    /*
+     * SatGo, the SAT gateway. The API key is exchanged for a short-lived JWT;
+     * it is not sent on document requests. `version` is the path segment of the
+     * consultar endpoints, kept in config because SatGo versions per route.
+     */
+    'satgo' => [
+        'base_url' => env('SATGO_BASE_URL', 'https://api.sat-go.com'),
+        'api_key' => env('SATGO_API_KEY'),
+        'version' => env('SATGO_API_VERSION', 'v2'),
+        // The SAT is slow and SatGo retries on our behalf, so this is generous.
+        'timeout' => (int) env('SATGO_TIMEOUT', 120),
+    ],
 
+    'whatsapp' => [
+        'phone_number_id' => env('WHATSAPP_PHONE_NUMBER_ID'),
+        'access_token' => env('WHATSAPP_ACCESS_TOKEN'),
+        'api_version' => env('WHATSAPP_API_VERSION', 'v21.0'),
+        'verify_token' => env('WHATSAPP_WEBHOOK_VERIFY_TOKEN'),
+        'app_secret' => env('WHATSAPP_APP_SECRET'),
+        // How long the signed URL handed to Meta for a document stays valid.
+        'document_link_ttl' => (int) env('WHATSAPP_DOCUMENT_LINK_TTL', 10),
+    ],
 ];
